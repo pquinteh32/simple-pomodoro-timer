@@ -1,5 +1,5 @@
 from threading import Thread
-import time
+import time, os, sys
 import gui as g
 from nava import play
 
@@ -17,6 +17,16 @@ time_thread = None
 isRunning = False
 time_left = WORK
 current_progress = 0
+
+def resource_path(relative_path):
+    """Obtiene la ruta absoluta a un recurso, funciona tanto en desarrollo como empaquetado"""
+    try:
+        # PyInstaller crea una carpeta temporal y guarda la ruta en _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    
+    return os.path.join(base_path, relative_path)
 
 def update_config():
     global WORK, SHORT_BREAK, LONG_BREAK, time_left, SESSION, POMODORO_COUNT, current_progress
@@ -45,7 +55,7 @@ def start_timer():
             g.window.refresh()
             
         if time_left == 0 and isRunning:
-            play("audio.wav", async_mode=True)
+            play(resource_path("audio/audio.wav"), async_mode=True)
             if SESSION == 'Work':
                 POMODORO_COUNT += 1
                 current_progress = 0

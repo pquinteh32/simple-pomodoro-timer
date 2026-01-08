@@ -27,7 +27,7 @@ layout = [[sg.TabGroup([
         ]]
 
 # Create the Window
-window = sg.Window('Pomodoro Timer', layout, finalize=True)
+window = sg.Window('Pomodoro Timer', layout, finalize=True, icon=m.resource_path('images/icon.ico'))
 
 # Update timer display on startup
 update_timer_display()
